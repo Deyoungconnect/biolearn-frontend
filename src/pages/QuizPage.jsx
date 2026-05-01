@@ -12,6 +12,7 @@ function QuizPage() {
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [savingProgress, setSavingProgress] = useState(false);
 
   useEffect(() => {
     const decodedTopic = decodeURIComponent(topic);
@@ -41,9 +42,25 @@ function QuizPage() {
       });
       setResults(res.data);
       setSubmitted(true);
+      
+      // Save progress after quiz
+      setSavingProgress(true);
+      const token = localStorage.getItem('token');
+      if (token && res.data.score !== undefined) {
+        await axios.post(`${API_URL}/progress/quiz-result`, {
+          topic: decodedTopic,
+          score: res.data.score,
+          percentage: res.data.percentage,
+          passed: res.data.passed,
+          answers: answerArray,
+          timeSpent: 0
+        }, { headers: { 'x-auth-token': token } });
+      }
     } catch (err) {
       console.error(err);
       alert('Error submitting quiz');
+    } finally {
+      setSavingProgress(false);
     }
   };
 
@@ -51,7 +68,7 @@ function QuizPage() {
     return (
       <div className="flex justify-center items-center h-96">
         <div className="text-center">
-          <div className="text-4xl mb-4">📝</div>
+          <div className="w-16 h-16 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <div className="text-xl text-gray-600">Loading quiz...</div>
         </div>
       </div>
@@ -63,7 +80,7 @@ function QuizPage() {
       <div className="container mx-auto px-4 py-12 text-center">
         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-8 max-w-md mx-auto">
           <p className="text-yellow-600 mb-4">Quiz not available yet.</p>
-          <Link to="/"><button className="bg-green-600 text-white px-6 py-2 rounded-lg">Back to Topics</button></Link>
+          <Link to="/topics"><button className="bg-green-600 text-white px-6 py-2 rounded-lg">Back to Topics</button></Link>
         </div>
       </div>
     );
@@ -148,10 +165,10 @@ function QuizPage() {
           {currentQuestion === quiz.questions.length - 1 ? (
             <button
               onClick={handleSubmit}
-              disabled={Object.keys(answers).length !== quiz.questions.length}
+              disabled={Object.keys(answers).length !== quiz.questions.length || savingProgress}
               className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition disabled:opacity-50 font-semibold"
             >
-              Submit Quiz ✅
+              {savingProgress ? 'Saving...' : 'Submit Quiz ✅'}
             </button>
           ) : (
             <button

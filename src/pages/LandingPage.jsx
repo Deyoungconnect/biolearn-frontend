@@ -19,9 +19,12 @@ function LandingPage() {
           <div className="text-center max-w-3xl mx-auto">
             <div className="text-6xl mb-6">🧬</div>
             <h1 className="text-5xl md:text-6xl font-bold mb-4">
-              Master Biology with BioLearn
+              Master Biology with <span className="text-yellow-300">BioLearn</span>
             </h1>
-            <p className="text-xl md:text-2xl mb-8 opacity-90">
+            <p className="text-xl md:text-2xl mb-2 opacity-90">
+              by <span className="font-bold text-yellow-300">DeyoungTech</span>
+            </p>
+            <p className="text-lg mb-8 opacity-80">
               Complete SS1, SS2, SS3 Biology Curriculum • Interactive Lessons • Practice Quizzes • AI Assistant
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -41,6 +44,7 @@ function LandingPage() {
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-800">Why Choose BioLearn?</h2>
           <p className="text-gray-600 mt-2">Complete Biology learning platform for Nigerian secondary school students</p>
+          <p className="text-sm text-green-600 mt-1">✨ Created by Deyoung Tech• Trusted by students ✨</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -106,10 +110,24 @@ function LandingPage() {
         </div>
       </div>
 
+      {/* Testimonial / Trust Section */}
+      <div className="container mx-auto px-4 py-12">
+        <div className="bg-white rounded-2xl shadow-lg p-8 text-center max-w-2xl mx-auto">
+          <div className="text-4xl mb-3">⭐</div>
+          <p className="text-gray-600 italic mb-4">
+            "An excellent platform for mastering Biology. Created with passion by Deyoung Tech to help students excel!"
+          </p>
+          <div className="flex justify-center space-x-1 text-yellow-500 mb-3">
+            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+          </div>
+          <p className="text-sm text-gray-500">Trusted by Biology students nationwide</p>
+        </div>
+      </div>
+
       {/* CTA Section */}
       <div className="container mx-auto px-4 py-16 text-center">
         <h2 className="text-3xl font-bold text-gray-800 mb-4">Ready to Master Biology?</h2>
-        <p className="text-gray-600 mb-8">Join thousands of students learning Biology with BioLearn</p>
+        <p className="text-gray-600 mb-8">Join thousands of students learning Biology with BioLearn by Deyoung Tech </p>
         <Link to="/signup" className="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition text-lg inline-block">
           Start Learning Now 🚀
         </Link>

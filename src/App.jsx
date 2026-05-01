@@ -11,6 +11,8 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import AdminQuiz from './pages/AdminQuiz';
+import Footer from './components/Footer';
+import Logo from './components/Logo';
 
 // Navigation bar - only shown when logged in
 function AppNavBar() {
@@ -20,12 +22,7 @@ function AppNavBar() {
     <nav className="bg-white shadow-lg sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3">
         <div className="flex justify-between items-center">
-          <Link to="/dashboard" className="flex items-center space-x-2">
-            <span className="text-2xl">🧬</span>
-            <span className="text-xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
-              BioLearn
-            </span>
-          </Link>
+          <Logo size="large" />
           <div className="flex items-center space-x-4">
             <Link to="/dashboard" className="text-gray-700 hover:text-green-600 transition font-medium">
               📊 Dashboard
@@ -57,7 +54,7 @@ function AuthenticatedLayout() {
   return (
     <>
       <AppNavBar />
-      <div className="container mx-auto px-4 py-6">
+      <div className="container mx-auto px-4 py-6 min-h-[calc(100vh-200px)]">
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/topics" element={<TopicsPage />} />
@@ -68,6 +65,7 @@ function AuthenticatedLayout() {
           <Route path="/" element={<Navigate to="/dashboard" />} />
         </Routes>
       </div>
+      <Footer />
     </>
   );
 }

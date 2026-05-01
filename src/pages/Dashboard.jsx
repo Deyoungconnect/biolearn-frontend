@@ -37,7 +37,6 @@ function Dashboard() {
       setError(null);
     } catch (err) {
       console.error('Fetch error:', err);
-      // Don't show error, just use default empty stats
       setError(null);
     } finally {
       setLoading(false);
@@ -48,7 +47,7 @@ function Dashboard() {
     return (
       <div className="flex justify-center items-center h-96">
         <div className="text-center">
-          <div className="text-5xl mb-4">📊</div>
+          <div className="w-16 h-16 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <div className="text-xl text-gray-600">Loading your dashboard...</div>
         </div>
       </div>
@@ -103,16 +102,16 @@ function Dashboard() {
           <p className="text-sm text-gray-500 mt-1">Browse and study topics</p>
         </Link>
         
-        <Link to="/topics-by-class" className="bg-white rounded-xl shadow-md p-6 text-center hover:shadow-lg transition border border-gray-100">
-          <div className="text-4xl mb-3">📖</div>
-          <h3 className="font-semibold text-gray-800 text-lg">Browse by Class</h3>
-          <p className="text-sm text-gray-500 mt-1">SS1, SS2, SS3 curriculum</p>
-        </Link>
-        
         <Link to="/ai" className="bg-white rounded-xl shadow-md p-6 text-center hover:shadow-lg transition border border-gray-100">
           <div className="text-4xl mb-3">🤖</div>
           <h3 className="font-semibold text-gray-800 text-lg">AI Assistant</h3>
           <p className="text-sm text-gray-500 mt-1">Get help with biology questions</p>
+        </Link>
+        
+        <Link to="/dashboard" className="bg-white rounded-xl shadow-md p-6 text-center hover:shadow-lg transition border border-gray-100">
+          <div className="text-4xl mb-3">🏆</div>
+          <h3 className="font-semibold text-gray-800 text-lg">Certificates</h3>
+          <p className="text-sm text-gray-500 mt-1">Earn certificates for your achievements</p>
         </Link>
       </div>
 
@@ -127,21 +126,24 @@ function Dashboard() {
                 <div className="flex justify-between items-center mb-2 flex-wrap gap-2">
                   <span className="font-medium text-gray-800">{topic.topic}</span>
                   <span className={`px-2 py-1 rounded text-xs font-semibold ${topic.quizPassed ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
-                    {topic.quizPassed ? '✓ PASSED' : 'Not Yet'}
+                    {topic.quizPassed ? '✓ PASSED' : '📝 IN PROGRESS'}
                   </span>
                 </div>
                 <div className="flex justify-between text-sm text-gray-500 mb-2">
                   <span>Best Score: {topic.bestQuizScore || 0}%</span>
                   <span>Quizzes: {topic.quizAttempts?.length || 0}</span>
-                  <Link to={`/quiz/${encodeURIComponent(topic.topic)}`} className="text-blue-600 hover:underline">
-                    Take Quiz →
-                  </Link>
+                  <span>Lessons: {topic.completedLessons?.length || 0}</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div 
                     className="bg-green-500 h-2 rounded-full transition-all"
                     style={{ width: `${topic.bestQuizScore || 0}%` }}
                   ></div>
+                </div>
+                <div className="mt-2">
+                  <Link to={`/quiz/${encodeURIComponent(topic.topic)}`} className="text-sm text-blue-600 hover:underline">
+                    Take Quiz →
+                  </Link>
                 </div>
               </div>
             ))}
