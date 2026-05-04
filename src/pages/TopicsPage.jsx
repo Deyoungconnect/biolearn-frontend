@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://biolearn-api.onrender.com/api';
 
 function TopicsPage() {
   const [topics, setTopics] = useState([]);
