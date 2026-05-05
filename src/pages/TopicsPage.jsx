@@ -16,7 +16,8 @@ function TopicsPage() {
 
   const fetchTopics = async () => {
     try {
-      const response = await axios.get(`${API_URL}/lessons/topics`);
+      // ✅ THIS IS THE ONLY LINE THAT CHANGED
+      const response = await axios.get(`${API_URL}/quiz`);
       setTopics(response.data);
       setLoading(false);
     } catch (error) {
@@ -27,7 +28,7 @@ function TopicsPage() {
 
   // Get class for each topic (you can adjust based on your data)
   const getTopicClass = (topicName) => {
-    const ss1Topics = ['Introduction to Biology', 'Cell Biology', 'Classification', 'Nutrition', 'Photosynthesis', 'Microorganisms', 'Growth and Development', 'Irritability and Response', 'Population Studies', 'Ecological Management', 'Pests and Diseases'];
+    const ss1Topics = ['Introduction to Biology', 'Cell Biology', 'Classification', 'Nutrition', 'Photosynthesis', 'Microorganisms', 'Growth and Development', 'Irritability and Response', 'Population Studies', 'Ecological Management', 'Pests and Diseases', 'Health and Disease'];
     const ss3Topics = ['Genetics', 'Evolution', 'Ecology', 'Biotechnology', 'Pollution'];
     
     if (ss1Topics.includes(topicName)) return 'SS1';
@@ -165,7 +166,7 @@ function TopicsPage() {
                           <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-semibold ${badgeColor} bg-opacity-90`}>
                             {topicClass}
                           </span>
-                          <span className="text-sm opacity-90">{topic.lessonCount} lessons</span>
+                          <span className="text-sm opacity-90">20 questions</span>
                         </div>
                       </div>
                       <div className="text-3xl opacity-80">📖</div>
@@ -185,18 +186,11 @@ function TopicsPage() {
                   
                   <div className="flex gap-3">
                     <Link 
-                      to={`/lessons/${encodeURIComponent(topic.topic)}`}
-                      className="flex-1 bg-green-600 text-white text-center py-2.5 rounded-xl hover:bg-green-700 transition font-medium flex items-center justify-center gap-2 group"
-                    >
-                      <span>📖</span>
-                      <span>Learn</span>
-                    </Link>
-                    <Link 
                       to={`/quiz/${encodeURIComponent(topic.topic)}`}
                       className="flex-1 bg-blue-600 text-white text-center py-2.5 rounded-xl hover:bg-blue-700 transition font-medium flex items-center justify-center gap-2 group"
                     >
                       <span>✨</span>
-                      <span>Quiz</span>
+                      <span>Take Quiz</span>
                     </Link>
                   </div>
                 </div>
