@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
-import Logo from '../components/Logo'; // IMPORT YOUR LOGO COMPONENT
 
 const API_URL = 'https://biolearn-api.onrender.com/api';
 
@@ -16,8 +15,6 @@ function Dashboard() {
     topicsProgress: []
   });
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,7 +25,6 @@ function Dashboard() {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        setError('Not authenticated');
         setLoading(false);
         return;
       }
@@ -37,18 +33,11 @@ function Dashboard() {
         headers: { 'x-auth-token': token }
       });
       setStats(response.data);
-      setError(null);
     } catch (err) {
       console.error('Fetch error:', err);
-      setError(null);
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
   };
 
   if (loading) {
@@ -64,108 +53,8 @@ function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* ========== NAVBAR WITH YOUR ORIGINAL LOGO AND DESIGN ========== */}
-      <nav className="bg-gradient-to-r from-green-600 to-emerald-700 text-white shadow-lg sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            
-            {/* YOUR ORIGINAL LOGO COMPONENT */}
-            <Link to="/dashboard" className="flex items-center">
-              <Logo size="medium" /> {/* Using your actual Logo component */}
-            </Link>
-
-            {/* Desktop Menu - Your original links */}
-            <div className="hidden md:flex items-center space-x-8">
-              <Link to="/dashboard" className="hover:text-green-200 transition font-medium">Dashboard</Link>
-              <Link to="/topics" className="hover:text-green-200 transition font-medium">Topics</Link>
-              <Link to="/ai" className="hover:text-green-200 transition font-medium">AI Assistant</Link>
-              <div className="flex items-center space-x-4 ml-4">
-                <span className="text-sm font-medium">👋 {user?.fullName?.split(' ')[0] || user?.username || 'Student'}</span>
-                <button
-                  onClick={handleLogout}
-                  className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg transition text-sm font-medium"
-                >
-                  Logout
-                </button>
-              </div>
-            </div>
-
-            {/* Mobile Menu Button (Hamburger - 3 lines) */}
-            <div className="md:hidden">
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="p-2 rounded-lg hover:bg-green-700 transition focus:outline-none"
-              >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  {isMobileMenuOpen ? (
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  ) : (
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 6h16M4 12h16M4 18h16"
-                    />
-                  )}
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          {/* Mobile Menu Dropdown */}
-          {isMobileMenuOpen && (
-            <div className="md:hidden pb-4 space-y-2 animate-fadeIn">
-              <Link
-                to="/dashboard"
-                className="block py-3 px-3 hover:bg-green-700 rounded-lg transition"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                📊 Dashboard
-              </Link>
-              <Link
-                to="/topics"
-                className="block py-3 px-3 hover:bg-green-700 rounded-lg transition"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                📚 Topics
-              </Link>
-              <Link
-                to="/ai"
-                className="block py-3 px-3 hover:bg-green-700 rounded-lg transition"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                🤖 AI Assistant
-              </Link>
-              <div className="pt-3 border-t border-green-500">
-                <div className="py-2 px-3 text-sm text-green-100">
-                  👋 {user?.fullName?.split(' ')[0] || user?.username || 'Student'}
-                </div>
-                <button
-                  onClick={() => {
-                    handleLogout();
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className="w-full text-left py-3 px-3 bg-red-500 hover:bg-red-600 rounded-lg transition mt-2"
-                >
-                  🚪 Logout
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-      </nav>
-
-      {/* ========== MAIN CONTENT (same as before) ========== */}
+      {/* NO NAVBAR HERE - AppNavBar handles navigation */}
+      
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Header */}
         <div className="bg-gradient-to-r from-green-600 to-blue-600 rounded-2xl p-6 sm:p-8 text-white mb-8">
