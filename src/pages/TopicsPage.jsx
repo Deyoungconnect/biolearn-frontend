@@ -9,20 +9,29 @@ function TopicsPage() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedClass, setSelectedClass] = useState('all');
+  const [completedLessons, setCompletedLessons] = useState({});
 
   useEffect(() => {
     fetchTopics();
+    loadCompletedLessons();
   }, []);
 
   const fetchTopics = async () => {
     try {
-      // ✅ THIS IS THE ONLY LINE THAT CHANGED
       const response = await axios.get(`${API_URL}/quiz`);
       setTopics(response.data);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching topics:', error);
       setLoading(false);
+    }
+  };
+
+  // Load completed lessons from localStorage
+  const loadCompletedLessons = () => {
+    const saved = localStorage.getItem('completedLessons');
+    if (saved) {
+      setCompletedLessons(JSON.parse(saved));
     }
   };
 
@@ -144,6 +153,7 @@ function TopicsPage() {
             const topicClass = getTopicClass(topic.topic);
             const classColor = getClassColor(topicClass);
             const badgeColor = getClassBadgeColor(topicClass);
+            const isLessonCompleted = completedLessons[topic.topic] === true;
             
             return (
               <div 
@@ -167,6 +177,9 @@ function TopicsPage() {
                             {topicClass}
                           </span>
                           <span className="text-sm opacity-90">20 questions</span>
+                          {isLessonCompleted && (
+                            <span className="text-xs bg-white/30 px-2 py-0.5 rounded-full">✓ Completed</span>
+                          )}
                         </div>
                       </div>
                       <div className="text-3xl opacity-80">📖</div>
@@ -184,15 +197,48 @@ function TopicsPage() {
                     {!['Introduction to Biology', 'Cell Biology', 'Genetics', 'Evolution'].includes(topic.topic) && `Master ${topic.topic.toLowerCase()} with comprehensive lessons and practice quizzes.`}
                   </p>
                   
+                  {/* TWO BUTTONS: LESSON FIRST, THEN QUIZ */}
                   <div className="flex gap-3">
+                    {/* Start Lesson Button - GREEN */}
+                    <Link 
+                      to={`/lessons/${encodeURIComponent(topic.topic)}`}
+                      className="flex-1 bg-green-600 text-white text-center py-2.5 rounded-xl hover:bg-green-700 transition font-medium flex items-center justify-center gap-2 group"
+                    >
+                      <span>📖</span>
+                      <span>Start Lesson</span>
+                    </Link>
+                    
+                    {/* Take Quiz Button - BLUE (optional: disabled until lesson completed) */}
                     <Link 
                       to={`/quiz/${encodeURIComponent(topic.topic)}`}
-                      className="flex-1 bg-blue-600 text-white text-center py-2.5 rounded-xl hover:bg-blue-700 transition font-medium flex items-center justify-center gap-2 group"
+                      className={`flex-1 text-center py-2.5 rounded-xl transition font-medium flex items-center justify-center gap-2 ${
+                        isLessonCompleted 
+                          ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                          : 'bg-gray-300 text-gray-500 cursor-not-allowed pointer-events-none'
+                      }`}
+                      onClick={(e) => {
+                        if (!isLessonCompleted) {
+                          e.preventDefault();
+                          alert('📚 Please complete the lesson first before taking the quiz!');
+                        }
+                      }}
                     >
                       <span>✨</span>
-                      <span>Take Quiz</span>
+                      <span>Take Quiz {!isLessonCompleted && '(Locked)'}</span>
                     </Link>
                   </div>
+                  
+                  {/* Hint for users */}
+                  {!isLessonCompleted && (
+                    <p className="text-xs text-amber-600 mt-3 text-center">
+                      🔒 Complete the lesson first to unlock the quiz
+                    </p>
+                  )}
+                  {isLessonCompleted && (
+                    <p className="text-xs text-green-600 mt-3 text-center">
+                      ✓ Lesson completed! Ready for the quiz
+                    </p>
+                  )}
                 </div>
                 
                 {/* Card Footer */}
