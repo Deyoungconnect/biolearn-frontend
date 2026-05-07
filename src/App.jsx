@@ -14,47 +14,14 @@ import AdminQuiz from './pages/AdminQuiz';
 import Footer from './components/Footer';
 import Logo from './components/Logo';
 
-// Navigation bar - only shown when logged in
-function AppNavBar() {
-  const { user, logout } = useAuth();
+// ========== NAVBAR DELETED - Now Dashboard has its own navbar ==========
 
-  return (
-    <nav className="bg-white shadow-lg sticky top-0 z-50">
-      <div className="container mx-auto px-4 py-3">
-        <div className="flex justify-between items-center">
-          <Logo size="large" />
-          <div className="flex items-center space-x-4">
-            <Link to="/dashboard" className="text-gray-700 hover:text-green-600 transition font-medium">
-              📊 Dashboard
-            </Link>
-            <Link to="/topics" className="text-gray-700 hover:text-green-600 transition font-medium">
-              📚 Topics
-            </Link>
-            <Link to="/ai" className="text-gray-700 hover:text-green-600 transition font-medium">
-              🤖 AI Assistant
-            </Link>
-            <div className="flex items-center space-x-3 border-l pl-4 ml-2">
-              <span className="text-sm text-gray-600">👋 {user?.fullName || user?.username}</span>
-              <button 
-                onClick={logout}
-                className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition text-sm"
-              >
-                Logout
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
-  );
-}
-
-// Layout for authenticated users
+// Layout for authenticated users (NO duplicate navbar)
 function AuthenticatedLayout() {
   return (
     <>
-      <AppNavBar />
-      <div className="container mx-auto px-4 py-6 min-h-[calc(100vh-200px)]">
+      {/* AppNavBar REMOVED - Dashboard now has its own navbar */}
+      <div className="min-h-[calc(100vh-200px)]">
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/topics" element={<TopicsPage />} />

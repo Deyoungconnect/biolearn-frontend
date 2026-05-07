@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
+import Logo from '../components/Logo'; // IMPORT YOUR LOGO COMPONENT
 
 const API_URL = 'https://biolearn-api.onrender.com/api';
 
@@ -63,27 +64,26 @@ function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* ========== NAVBAR WITH HAMBURGER MENU ========== */}
+      {/* ========== NAVBAR WITH YOUR ORIGINAL LOGO AND DESIGN ========== */}
       <nav className="bg-gradient-to-r from-green-600 to-emerald-700 text-white shadow-lg sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             
-            {/* Logo */}
-            <Link to="/dashboard" className="flex items-center space-x-2">
-              <span className="text-2xl">🌿</span>
-              <span className="font-bold text-xl">BioLearn</span>
+            {/* YOUR ORIGINAL LOGO COMPONENT */}
+            <Link to="/dashboard" className="flex items-center">
+              <Logo size="medium" /> {/* Using your actual Logo component */}
             </Link>
 
-            {/* Desktop Menu - Hidden on mobile */}
-            <div className="hidden md:flex items-center space-x-6">
-              <Link to="/topics" className="hover:text-green-200 transition">Topics</Link>
-              <Link to="/assistant" className="hover:text-green-200 transition">Assistant</Link>
-              <Link to="/ai" className="hover:text-green-200 transition">AI</Link>
-              <div className="flex items-center space-x-4">
-                <span className="text-sm">Hello, {user?.fullName?.split(' ')[0] || user?.username || 'Student'}!</span>
+            {/* Desktop Menu - Your original links */}
+            <div className="hidden md:flex items-center space-x-8">
+              <Link to="/dashboard" className="hover:text-green-200 transition font-medium">Dashboard</Link>
+              <Link to="/topics" className="hover:text-green-200 transition font-medium">Topics</Link>
+              <Link to="/ai" className="hover:text-green-200 transition font-medium">AI Assistant</Link>
+              <div className="flex items-center space-x-4 ml-4">
+                <span className="text-sm font-medium">👋 {user?.fullName?.split(' ')[0] || user?.username || 'Student'}</span>
                 <button
                   onClick={handleLogout}
-                  className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg transition text-sm"
+                  className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg transition text-sm font-medium"
                 >
                   Logout
                 </button>
@@ -122,9 +122,16 @@ function Dashboard() {
             </div>
           </div>
 
-          {/* Mobile Menu Dropdown - Shows when hamburger is clicked */}
+          {/* Mobile Menu Dropdown */}
           {isMobileMenuOpen && (
-            <div className="md:hidden pb-4 space-y-3 animate-fadeIn">
+            <div className="md:hidden pb-4 space-y-2 animate-fadeIn">
+              <Link
+                to="/dashboard"
+                className="block py-3 px-3 hover:bg-green-700 rounded-lg transition"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                📊 Dashboard
+              </Link>
               <Link
                 to="/topics"
                 className="block py-3 px-3 hover:bg-green-700 rounded-lg transition"
@@ -133,22 +140,15 @@ function Dashboard() {
                 📚 Topics
               </Link>
               <Link
-                to="/assistant"
-                className="block py-3 px-3 hover:bg-green-700 rounded-lg transition"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                🤖 Assistant
-              </Link>
-              <Link
                 to="/ai"
                 className="block py-3 px-3 hover:bg-green-700 rounded-lg transition"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                💡 AI
+                🤖 AI Assistant
               </Link>
               <div className="pt-3 border-t border-green-500">
-                <div className="py-2 px-3 text-sm">
-                  👋 Hello, {user?.fullName?.split(' ')[0] || user?.username || 'Student'}!
+                <div className="py-2 px-3 text-sm text-green-100">
+                  👋 {user?.fullName?.split(' ')[0] || user?.username || 'Student'}
                 </div>
                 <button
                   onClick={() => {
@@ -165,20 +165,20 @@ function Dashboard() {
         </div>
       </nav>
 
-      {/* ========== MAIN CONTENT ========== */}
+      {/* ========== MAIN CONTENT (same as before) ========== */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Welcome Header - Responsive */}
+        {/* Welcome Header */}
         <div className="bg-gradient-to-r from-green-600 to-blue-600 rounded-2xl p-6 sm:p-8 text-white mb-8">
           <h1 className="text-2xl sm:text-3xl font-bold">Hello, {user?.fullName || user?.username || 'Student'}! 👋</h1>
           <p className="mt-2 opacity-90 text-sm sm:text-base">Welcome to your BioLearn dashboard. Track your progress and continue your biology journey!</p>
           <div className="mt-4">
             <span className="inline-block bg-white/20 rounded-full px-3 py-1 text-sm">
-              Class: {user?.class || 'Not set'}
+              Class: {user?.class || 'SS3'}
             </span>
           </div>
         </div>
 
-        {/* Stats Grid - Responsive (1 col on mobile, 2 on tablet, 4 on desktop) */}
+        {/* Stats Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
           <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 text-center hover:shadow-lg transition">
             <div className="text-3xl sm:text-4xl mb-2 sm:mb-3">📚</div>
@@ -205,7 +205,7 @@ function Dashboard() {
           </div>
         </div>
 
-        {/* Quick Actions - Responsive */}
+        {/* Quick Actions */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
           <Link to="/topics" className="bg-white rounded-xl shadow-md p-4 sm:p-6 text-center hover:shadow-lg transition border border-gray-100">
             <div className="text-3xl sm:text-4xl mb-2 sm:mb-3">📚</div>
@@ -226,7 +226,7 @@ function Dashboard() {
           </Link>
         </div>
 
-        {/* Topics Progress Section - Responsive */}
+        {/* Topics Progress Section */}
         <div className="bg-white rounded-xl shadow-md p-4 sm:p-6">
           <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-4">📖 Your Study Progress</h2>
           
