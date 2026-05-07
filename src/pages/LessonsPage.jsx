@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 
 const API_URL = 'https://biolearn-api.onrender.com/api';
+const BASE_URL = 'https://biolearn-api.onrender.com'; // Added for images
 
 function LessonsPage() {
   const { topic } = useParams();
@@ -62,6 +63,24 @@ function LessonsPage() {
     }
   };
 
+  // Helper function to get correct image URL
+  const getImageUrl = (diagramUrl) => {
+    if (!diagramUrl) return null;
+    
+    // If it's already a full URL, return as is
+    if (diagramUrl.startsWith('http://') || diagramUrl.startsWith('https://')) {
+      return diagramUrl;
+    }
+    
+    // If it starts with /uploads or /images, use the BASE_URL
+    if (diagramUrl.startsWith('/uploads') || diagramUrl.startsWith('/images')) {
+      return `${BASE_URL}${diagramUrl}`;
+    }
+    
+    // Default: assume it's a relative path
+    return `${BASE_URL}/${diagramUrl}`;
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-96">
@@ -89,10 +108,8 @@ function LessonsPage() {
   const lesson = lessons[currentIndex];
   const progress = ((currentIndex + 1) / lessons.length) * 100;
 
-  // Construct the full image URL
-  const imageUrl = lesson.diagramUrl 
-    ? `http://localhost:5000${lesson.diagramUrl}`
-    : null;
+  // Construct the full image URL using the helper function
+  const imageUrl = getImageUrl(lesson.diagramUrl);
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
@@ -136,7 +153,7 @@ function LessonsPage() {
           </div>
         )}
 
-        {/* Diagram Section */}
+        {/* Diagram Section - FIXED for production */}
         {imageUrl && (
           <div className="mb-6">
             <button 
@@ -162,8 +179,9 @@ function LessonsPage() {
                       objectFit: 'contain'
                     }}
                     onClick={() => setShowFullImage(true)}
-                    onError={() => {
+                    onError={(e) => {
                       console.log('Image failed to load:', imageUrl);
+                      console.log('Diagram URL from DB:', lesson.diagramUrl);
                       setImgError(true);
                     }}
                   />
@@ -173,6 +191,16 @@ function LessonsPage() {
                 </p>
               </div>
             )}
+          </div>
+        )}
+
+        {/* No Diagram Available Message */}
+        {!imageUrl && (
+          <div className="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+            <p className="text-gray-500 text-sm flex items-center gap-2">
+              <span>🖼️</span> 
+              <span>No diagram available for this lesson yet.</span>
+            </p>
           </div>
         )}
 
@@ -198,6 +226,7 @@ function LessonsPage() {
               src={imageUrl}
               alt={lesson.subtopic}
               className="max-w-[90vw] max-h-[90vh] object-contain"
+              onError={() => setImgError(true)}
             />
             <p className="absolute bottom-4 left-0 right-0 text-center text-white text-sm bg-black bg-opacity-50 py-2 mx-auto w-fit px-4 rounded-full">
               {lesson.subtopic} - Click anywhere to close
