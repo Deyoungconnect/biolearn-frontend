@@ -1,16 +1,73 @@
-# React + Vite
+# 🧬 BioLearn - Smart Biology Learning Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![Live Demo](https://img.shields.io/badge/LIVE_DEMO-View_App-绿色?style=for-the-badge&logo=render&color=成功)](https://biolearn-ng.onrender.com)
+[![API](https://img.shields.io/badge/API-Backend-蓝色?style=for-the-badge&logo=render&color=蓝色)](https://biolearn-api.onrender.com/api/health)
+[![GitHub](https://img.shields.io/badge/GitHub-Source_Code-黑色?style=for-the-badge&logo=github&color=黑色)](https://github.com/Deyoungconnect/biolearn-frontend)
 
-Currently, two official plugins are available:
+## 🚀 Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+👉 **[CLICK HERE TO VIEW LIVE DEMO](https://biolearn-ng.onrender.com)** 👈
 
-## React Compiler
+| Frontend | Backend API |
+|----------|-------------|
+| [biolearn-ng.onrender.com](https://biolearn-ng.onrender.com) | [biolearn-api.onrender.com/api](https://biolearn-api.onrender.com/api/health) |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 📚 About BioLearn
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+A complete e-learning platform for Nigerian secondary school students (SS1-SS3) with interactive lessons, quizzes, and AI assistance.
+
+**Built for WAEC, NECO & JAMB candidates.**
+
+---
+
+## ✨ Features
+
+| Feature | Description |
+|---------|-------------|
+| 📖 **24 Topics** | Complete SS1, SS2, SS3 Biology curriculum |
+| 📝 **480+ Questions** | 20 practice questions per topic |
+| 🖼️ **Interactive Lessons** | Diagrams and visual aids |
+| 🤖 **AI Assistant** | Get instant answers to biology questions |
+| 📊 **Progress Tracking** | Dashboard to monitor your learning |
+| 🏆 **Certificates** | Earn certificates after completing topics |
+| 🔐 **User Accounts** | Sign up / Login to save progress |
+
+---
+
+## 🛠️ Tech Stack
+
+| Category | Technology |
+|----------|------------|
+| Frontend | React 18, Vite, Tailwind CSS |
+| Backend | Node.js, Express |
+| Database | MongoDB Atlas |
+| Authentication | JWT, bcryptjs |
+| Deployment | Render (frontend + backend) |
+| Version Control | Git, GitHub |
+
+---
+
+## 📸 Screenshots
+
+| Topics Page | Quiz Page | Dashboard |
+|-------------|-----------|-----------|
+| (Add screenshot later) | (Add screenshot later) | (Add screenshot later) |
+
+---
+
+## 🔧 Installation
+
+### Prerequisites
+- Node.js (v18 or higher)
+- MongoDB (local or Atlas)
+
+### Backend Setup
+```bash
+git clone https://github.com/Deyoungconnect/biolearn-backend.git
+cd biolearn-backend
+npm install
+cp .env.example .env
+# Add your MongoDB URI and JWT secret
+npm run dev
